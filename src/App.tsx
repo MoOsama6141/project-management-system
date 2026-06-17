@@ -1,16 +1,12 @@
-
-import './App.css'
+import "./App.css";
+import IndexRouter from "./app/router";
 
 function App() {
-
   return (
     <>
-   <h2 className='text-red-400'> project managment system </h2>
-
-  
-
+      <IndexRouter />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
