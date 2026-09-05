@@ -1,9 +1,21 @@
+import DashboardCharts from "@/components/charts/DashboardCharts";
 import { ClipboardList, FolderKanban, TrendingUp } from "lucide-react";
-import DashboardCharts from "../components/charts/DashboardCharts";
+import getTaskCount from "../api/Users";
+import { useQuery } from "@tanstack/react-query";
 
 const HomePage = () => {
+  const admin = window.localStorage.getItem("role") === "admin";
+
+  const { data: taskCount, isLoading } = useQuery({
+    queryKey: ["taskCount"],
+    queryFn: getTaskCount,
+  });
+
+  console.log(taskCount?.toDo , "task count..............");
+  
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-5 pt-20 px-6">
       {/* Hero Banner */}
       <section
         className="relative h-[220px] overflow-hidden rounded-3xl bg-cover bg-center"
@@ -17,7 +29,7 @@ const HomePage = () => {
 
         <div className="relative z-10 flex h-full flex-col justify-center px-10">
           <h1 className="text-5xl font-light text-white">
-            Welcome <span className="font-medium text-amber-400">Omar</span>
+            Welcome <span className="font-medium text-amber-400">{admin ? 'mostafa' : ""}</span>
           </h1>
 
           <p className="mt-5 text-2xl font-light text-white/95">
@@ -73,7 +85,7 @@ const HomePage = () => {
         </div>
 
         {/* Chart */}
-        <DashboardCharts />
+        <DashboardCharts taskCount={taskCount}/>
       </section>
     </div>
   );

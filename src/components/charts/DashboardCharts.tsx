@@ -11,11 +11,7 @@ import {
   Legend,
 } from "recharts";
 
-const taskData = [
-  { status: "Todo", count: 20 },
-  { status: "In Progress", count: 15 },
-  { status: "Done", count: 35 },
-];
+
 
 const userData = [
   { name: "Active", value: 18 },
@@ -24,7 +20,12 @@ const userData = [
 
 const COLORS = ["#22C55E", "#EF4444"];
 
-export default function DashboardCharts() {
+export default function DashboardCharts({ taskCount }: { taskCount: any }) {
+  const taskData = [
+  { status: "Todo", count: taskCount?.toDo || 0 },
+  { status: "In Progress", count: taskCount?.inProgress || 0 },
+  { status: "Done", count: taskCount?.done || 0 },
+];
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
       {/* Bar Chart */}

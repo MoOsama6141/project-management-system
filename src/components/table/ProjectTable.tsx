@@ -29,50 +29,68 @@ import {
 } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import { toast } from "sonner";
+import DeleteProject from "@/features/projects/api/DeleteProject";
+import updateProject from "@/features/projects/api/UpdateProject";
+import ProjectModal from "@/features/projects/components/ProjectModal";
 
-const projects = [
-  {
-    id: 1,
-    title: "Food Management",
-    status: "Public",
-    users: 10,
-    tasks: 30,
-    createdAt: "09-23-2023",
-  },
-  {
-    id: 2,
-    title: "Project Management",
-    status: "Public",
-    users: 15,
-    tasks: 10,
-    createdAt: "09-23-2023",
-  },
-  {
-    id: 3,
-    title: "Project",
-    status: "Public",
-    users: 3,
-    tasks: 15,
-    createdAt: "09-23-2023",
-  },
-  {
-    id: 4,
-    title: "Project",
-    status: "Public",
-    users: 5,
-    tasks: 5,
-    createdAt: "09-23-2023",
-  },
-  {
-    id: 5,
-    title: "Project",
-    status: "Public",
-    users: 5,
-    tasks: 4,
-    createdAt: "09-23-2023",
-  },
-];
-export default function ProjectTable() {
+export default function ProjectTable({ data: projects }: any) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<"create" | "edit" | "view">(
+    "create",
+  );
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const queryClient = useQueryClient();
+
+  const projectList = projects?.data ?? [];
+  const totalCount = projects?.totalNumberOfRecords ?? projectList.length;
+  const pageNumber = projects?.pageNumber ?? 1;
+  const totalPages = projects?.totalNumberOfPages ?? 1;
+
+  const deleteMutation = useMutation({
+    mutationFn: (projectId: string) => DeleteProject(projectId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
+      toast.success("Project deleted successfully");
+    },
+    onError: () => {
+      toast.error("Failed to delete project");
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({
+      projectId,
+      payload,
+    }: {
+      projectId: string;
+      payload: { title: string; description: string };
+    }) => updateProject(projectId, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
+      setModalOpen(false);
+      toast.success("Project updated successfully");
+    },
+    onError: () => {
+      toast.error("Failed to update project");
+    },
+  });
+
+  const formatDate = (value?: string) => {
+    if (!value) return "-";
+    const date = new Date(value);
+    return Number.isNaN(date.getTime())
+      ? value
+      : date.toLocaleDateString("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        });
+  };
+
   return (
     <div className="space-y-5">
       {/* Header */}
@@ -80,7 +98,10 @@ export default function ProjectTable() {
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-medium text-neutral-700">Projects</h1>
 
-        <a href="/projects/add-project" className="rounded-full bg-[#F5A623] hover:bg-[#e79b1e]">
+        <a
+          href="/projects/add-project"
+          className="rounded-full bg-[#F5A623] hover:bg-[#e79b1e]"
+        >
           <Plus className="h-4 w-4" />
           Add New Project
         </a>
@@ -115,22 +136,15 @@ export default function ProjectTable() {
               </TableHead>
 
               <TableHead className="text-white">
-                <div className="flex items-center gap-2">
-                  Status
+                <div className="flex items-center gap-2  ">
+                  Description
                   <ChevronsUpDown size={14} />
                 </div>
               </TableHead>
 
               <TableHead className="text-white">
                 <div className="flex items-center gap-2">
-                  Num Users
-                  <ChevronsUpDown size={14} />
-                </div>
-              </TableHead>
-
-              <TableHead className="text-white">
-                <div className="flex items-center gap-2">
-                  Num Tasks
+                  Manager
                   <ChevronsUpDown size={14} />
                 </div>
               </TableHead>
@@ -147,24 +161,26 @@ export default function ProjectTable() {
           </TableHeader>
 
           <TableBody>
-            {projects.map((project, index) => (
+            {projectList.map((project: any, index: number) => (
               <TableRow
                 key={project.id}
                 className={index % 2 === 0 ? "bg-white" : "bg-neutral-50"}
               >
                 <TableCell>{project.title}</TableCell>
 
-                <TableCell>
-                  <span className="inline-flex rounded-full bg-[#486F65] px-3 py-1 text-xs text-white">
-                    {project.status}
-                  </span>
+                <TableCell className="max-w-60">
+                  <div className="text-sm text-slate-600 truncate">
+                    {project.description || "-"}
+                  </div>
                 </TableCell>
 
-                <TableCell>{project.users}</TableCell>
+                <TableCell>
+                  <div className="text-sm text-slate-700">
+                    {project.manager?.userName || "-"}
+                  </div>
+                </TableCell>
 
-                <TableCell>{project.tasks}</TableCell>
-
-                <TableCell>{project.createdAt}</TableCell>
+                <TableCell>{formatDate(project.creationDate)}</TableCell>
 
                 <TableCell>
                   <DropdownMenu>
@@ -175,17 +191,49 @@ export default function ProjectTable() {
                     </DropdownMenuTrigger>
 
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setSelectedProject(project);
+                          setModalMode("view");
+                          setModalOpen(true);
+                        }}
+                      >
                         <Eye className="mr-2 h-4 w-4" />
                         View
                       </DropdownMenuItem>
 
-                      <DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setSelectedProject(project);
+                          setModalMode("edit");
+                          setModalOpen(true);
+                        }}
+                      >
                         <Pencil className="mr-2 h-4 w-4" />
                         Edit
                       </DropdownMenuItem>
 
-                      <DropdownMenuItem className="text-red-500">
+                      <DropdownMenuItem
+                        className="text-red-500"
+                        onClick={() => {
+                          Swal.fire({
+                            title: "Delete project?",
+                            text: "This action cannot be undone.",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#d33",
+                            cancelButtonColor: "#3085d6",
+                            confirmButtonText: "Yes, delete it!",
+                            cancelButtonText: "Cancel",
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              deleteMutation.mutate(String(project.id));
+                            } else {
+                              toast.info("Deletion canceled");
+                            }
+                          });
+                        }}
+                      >
                         <Trash2 className="mr-2 h-4 w-4" />
                         Delete
                       </DropdownMenuItem>
@@ -201,12 +249,14 @@ export default function ProjectTable() {
 
         <div className="flex items-center justify-end gap-8 border-t p-4 text-sm text-muted-foreground">
           <div>
-            Showing <strong>10</strong>
+            Showing <strong>{projectList.length}</strong>
           </div>
 
-          <div>of 102 Results</div>
+          <div>of {totalCount} Results</div>
 
-          <div>Page 1 of 10</div>
+          <div>
+            Page {pageNumber} of {totalPages}
+          </div>
 
           <div className="flex gap-2">
             <Button size="icon" variant="ghost">
@@ -219,6 +269,21 @@ export default function ProjectTable() {
           </div>
         </div>
       </div>
+
+      <ProjectModal
+        open={modalOpen}
+        mode={modalMode}
+        project={selectedProject}
+        onClose={() => setModalOpen(false)}
+        onSubmit={(payload) => {
+          if (selectedProject?.id) {
+            updateMutation.mutate({
+              projectId: String(selectedProject.id),
+              payload,
+            });
+          }
+        }}
+      />
     </div>
   );
 }

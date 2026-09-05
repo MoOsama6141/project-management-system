@@ -1,8 +1,8 @@
 // layouts/DashboardLayout.tsx
 
+import Navbar from "@/features/home/pages/Navbar";
+import Sidbar from "@/features/home/pages/Sidbar";
 import { Outlet } from "react-router-dom";
-import Sidbar from "../../pages/Sidbar";
-import Navbar from "../../pages/Navbar";
 
 const DashboardLayout = () => {
   return (
@@ -13,11 +13,11 @@ const DashboardLayout = () => {
 
 
     <div className="flex">
-      <aside className="fixed left-0 top-15 h-screen w-40">
+      <aside className="fixed left-0 top-12 h-screen w-40 bg-[#0E382F] text-white">
         <Sidbar />
       </aside>
 
-      <main className="ms-40 py-20 flex-1 px-6">
+      <main className="ms-40 py-0 flex-1 ">
         <Outlet />
       </main>
     </div>
