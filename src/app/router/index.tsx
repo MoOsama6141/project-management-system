@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HomePage from "../../pages/HomePage";
 import LoginPage from "../../features/auth/pages/LoginPage";
-import DashboardPage from "../../features/auth/pages/DashboardPage";
 import AdminPanelPage from "../../features/auth/pages/AdminPanelPage";
 import ProfilePage from "../../features/users/pages/ProfilePage";
+import UsersPage from "../../features/users/pages/UsersPage";
 import ProjectsPage from "../../features/projects/pages/ProjectsPage";
 import TasksPage from "../../features/tasks/pages/TasksPage";
 import AdminTasks from "../../features/auth/pages/AdminTasks";
@@ -14,6 +13,7 @@ import ResetPassword from "../../features/auth/pages/ResetPassword";
 import ChangePassword from "../../features/auth/pages/ChangePassword";
 import VerifyAccount from "@/features/auth/pages/VerifyAccount";
 import AddProjectPage from "@/features/projects/pages/AddProjects";
+import HomePage from "@/features/home/pages/HomePage";
 
 const IndexRouter = () => {
   return (
@@ -28,10 +28,11 @@ const IndexRouter = () => {
 
         <Route element={<DashboardLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<HomePage />} />
           <Route path="/admin" element={<AdminPanelPage />} />
           <Route path="/admin/tasks" element={<AdminTasks />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/users" element={<UsersPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/add-project" element={<AddProjectPage />} />
           <Route path="/tasks" element={<TasksPage />} />

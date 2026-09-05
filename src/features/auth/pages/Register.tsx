@@ -6,7 +6,7 @@ import registerSchema from "../schemas/register";
 import registerData from "../api/register";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const RegisterPage = () => {
   type Inputs = {
@@ -33,8 +33,7 @@ const RegisterPage = () => {
     onSuccess: (data) => {
       console.log(data, "data from register");
       toast.success(data?.message || "Account has been created succeffully.");
-      navigate("/login");
-      
+      navigate("/verify-account");
     },
     onError: (error: any) => {
       const backendErrors = error.response?.data?.additionalInfo?.errors;

@@ -6,11 +6,19 @@ import loginSchema from "../schemas/login";
 import { useMutation } from "@tanstack/react-query";
 import loginFn from "../api/login";
 import { toast } from "sonner";
+import { useNavigate } from "react-router";
+import { useAuthStore } from "@/app/store/auth.store";
+import { jwtDecode } from "jwt-decode";
 
 type Inputs = {
   email: string;
   password: string;
 };
+interface TokenPayload {
+  userEmail: string;
+  userGroup: string;
+  userName: string;
+}
 
 const LoginPage = () => {
   const {
@@ -21,11 +29,27 @@ const LoginPage = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const Navigate = useNavigate();
+
   const { mutate, isPending } = useMutation({
     mutationFn: loginFn,
     onSuccess: (data) => {
+      const decoded = jwtDecode(data?.token) as TokenPayload;
+      console.log(decoded, "decoded........");
+
+      window.localStorage.setItem("token", data?.token);
+      window.localStorage.setItem("email", decoded?.userEmail);
+      localStorage.setItem("role", decoded.userGroup);
+
+      useAuthStore.setState({
+        token: data?.token,
+        email: decoded?.userEmail,
+        role: decoded.userGroup ? "manager" : "employee",
+      });
       console.log(data, "data from login");
       toast.success(data?.message || "Login successful");
+      window.localStorage.setItem("token", data?.token);
+      Navigate("/");
     },
   });
 
