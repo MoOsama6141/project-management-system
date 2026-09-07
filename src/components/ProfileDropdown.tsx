@@ -16,7 +16,6 @@ import getCurrentUser from "@/features/users/api/CurrentUser";
 
 const ProfileDropdown = () => {
   const navigate = useNavigate();
-  const email = useAuthStore((state) => state.email) ?? "user@example.com";
   const role = useAuthStore((state) => state.role) ?? "employee";
   const { data: currentUser } = useQuery({
     queryKey: ["current-user"],
@@ -47,7 +46,7 @@ const ProfileDropdown = () => {
           className="flex items-center gap-2 rounded-full  px-1 py-1.5 text-foreground  transition-colors hover:bg-muted"
         >
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-            <img src="/avatar.png" alt="" />
+            {initials}
           </div>
 
           <div className="hidden text-left sm:block">

@@ -66,22 +66,6 @@ type InputProps = {
   placeholder: string;
 };
 
-function Input({ label, placeholder }: InputProps) {
-  return (
-    <div>
-      <label className="mb-1 block text-xs font-medium text-orange-400">
-        {label}
-      </label>
-
-      <input
-        type="text"
-        placeholder={placeholder}
-        className="w-full border-b border-white/20 bg-transparent pb-2 text-white outline-none placeholder:text-white/60 focus:border-orange-400"
-      />
-    </div>
-  );
-}
-
 function PasswordInput({ label, placeholder }: InputProps) {
   const [isVisible, setIsVisible] = useState(false);
 

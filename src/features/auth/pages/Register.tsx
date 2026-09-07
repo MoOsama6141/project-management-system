@@ -29,7 +29,7 @@ const RegisterPage = () => {
 
   const navigate = useNavigate();
 
-  const { isError, isPending, mutate } = useMutation({
+  const { isPending, mutate } = useMutation({
     mutationFn: registerData,
     onSuccess: (data) => {
       console.log(data, "data from register");
