@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import viewUser from "../api/ViewUser";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 interface ViewUserPopupProps {
   userId: string | number | null;
@@ -73,8 +74,12 @@ function ViewUserPopup({ userId, open, onClose }: ViewUserPopupProps) {
 
         <div className="px-6 py-6">
           {loading ? (
-            <div className="py-10 text-center text-slate-500">
-              Loading user details...
+            <div className="py-10">
+              <LoadingSpinner
+                size={28}
+                className="py-4"
+                label="Loading user details"
+              />
             </div>
           ) : !user ? (
             <div className="py-10 text-center text-red-500">

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const AdminSidebarItems = [
   { label: "Dashboard", to: "/dashboard" },
@@ -14,23 +14,32 @@ const employeeSidebarItems = [
 
 let mainSideBar = [];
 
-const manager = window.localStorage.getItem("role") === "Manager";
+const role = window.localStorage.getItem("role")?.toLowerCase();
+const manager = role === "manager" || role === "admin";
 
 function Sidbar() {
   if (manager) mainSideBar = AdminSidebarItems;
   else mainSideBar = employeeSidebarItems;
+
   return (
-    <aside className="p-4  min-h-screen">
+    <aside className="p-4 min-h-screen">
       <nav>
-        <ul className="space-y-3">
+        <ul className="">
           {mainSideBar?.map((item) => (
-            <li key={item.to} className="rounded-lg px-4 py-2 text-white hover:bg-[#F5A623] transition-colors duration-300">
-              <Link
+            <li
+              key={item.to}
+              className="rounded-lg w-full px-1 py-2 text-white transition-colors duration-300"
+            >
+              <NavLink
                 to={item.to}
-                className="  transition-colors duration-300 w-full"
+                className={({ isActive }) =>
+                  `block rounded-md px-2 py-2 transition-colors duration-300  w-full ${
+                    isActive ? "bg-[#F5A623] text-white" : "hover:bg-[#F5A623]"
+                  }`
+                }
               >
                 {item.label}
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>

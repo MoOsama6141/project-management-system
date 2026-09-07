@@ -14,7 +14,7 @@ const updateTask = async (
 
   try {
     const response = await axios.put(
-      `https://upskilling-egypt.com:3003/api/v1/Task/${taskId}`,
+      `https://upskilling-egypt.com:3003/api/v1/Task/${taskId}/change-status`,
       {
         ...payload,
         employeeId: payload.employeeId,

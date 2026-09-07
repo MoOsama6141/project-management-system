@@ -14,20 +14,27 @@ import ChangePassword from "../../features/auth/pages/ChangePassword";
 import VerifyAccount from "@/features/auth/pages/VerifyAccount";
 import AddProjectPage from "@/features/projects/pages/AddProjects";
 import HomePage from "@/features/home/pages/HomePage";
+import ProtectedRoute from "./ProtectedRoute";
 
 const IndexRouter = () => {
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/Reset-password" element={<ResetPassword />} />
         <Route path="/Change-password" element={<ChangePassword />} />
         <Route path="/Verify-account" element={<VerifyAccount />} />
 
-        <Route element={<DashboardLayout />}>
-          <Route path="/" element={<HomePage />} />
+        <Route
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/dashboard" element={<HomePage />} />
           <Route path="/admin" element={<AdminPanelPage />} />
           <Route path="/admin/tasks" element={<AdminTasks />} />

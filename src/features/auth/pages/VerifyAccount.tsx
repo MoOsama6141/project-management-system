@@ -1,10 +1,11 @@
+import { motion } from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import verifyFn from "../api/Verify";
 import { toast } from "sonner";
 import verifySchema from "../schemas/verify";
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 // import avatar from "@/assets/avatar.png"; // your avatar image
 type Inputs = {
   email: string;
@@ -18,7 +19,7 @@ const VerifyAccount = () => {
   } = useForm<Inputs>({
     resolver: zodResolver(verifySchema),
   });
-const Navigate = useNavigate();
+  const Navigate = useNavigate();
   const { mutate, isPending } = useMutation({
     mutationFn: verifyFn,
     onSuccess: (data) => {
@@ -36,31 +37,45 @@ const Navigate = useNavigate();
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#003D34]">
       {/* Left Image */}
-      <img
+      <motion.img
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 0.7, x: 0 }}
+        transition={{ duration: 0.6 }}
         src="/right.png"
         alt=""
-        className="absolute left-0 bottom-0 h-[70%] w-[450px]  object-cover opacity-70"
+        className="absolute left-0 bottom-0 h-[70%] w-112.5 object-cover opacity-70"
       />
 
       {/* Right Image */}
-      <img
+      <motion.img
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
         src="/left.png"
         alt=""
-        className="absolute right-0 top-0 h-full w-[420px] object-cover"
+        className="absolute right-0 top-0 h-full w-105 object-cover"
       />
 
       {/* Logo */}
-      <div className="pt-15 text-center">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="pt-15 text-center"
+      >
         <img
           src="/logo.png"
           alt="Logo"
-          className="mx-auto  rounded-full object-cover"
+          className="mx-auto rounded-full object-cover"
         />
-      </div>
+      </motion.div>
 
       {/* Form Card */}
-      <form
-        className="relative mx-auto mt-8 max-w-[668px] rounded-[25px] bg-[#315951E5]/90   pt-15 px-15 backdrop-blur-md h-[500px]"
+      <motion.form
+        initial={{ opacity: 0, y: 24, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className="relative mx-auto mt-8 max-w-167 rounded-[25px] bg-[#315951E5]/90 pt-15 px-15 backdrop-blur-md h-125"
         onSubmit={handleSubmit(onSubmit)}
       >
         <p className="text-sm text-white/70">welcome to PMS</p>
@@ -96,11 +111,15 @@ const Navigate = useNavigate();
 
         {/* Button */}
         <div className="mt-12 flex justify-center">
-          <button className="w-[80%] cursor-pointer rounded-full bg-orange-500 py-3 font-semibold text-white transition hover:bg-orange-600">
+          <motion.button
+            whileHover={{ scale: 1.03, y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-[80%] cursor-pointer rounded-full bg-orange-500 py-3 font-semibold text-white transition hover:bg-orange-600"
+          >
             {isPending ? "verifing..." : "Verify Account"}
-          </button>
+          </motion.button>
         </div>
-      </form>
+      </motion.form>
     </div>
   );
 };

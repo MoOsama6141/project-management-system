@@ -29,6 +29,7 @@ import {
 import ViewUserPopup from "../components/ViewUserPopup";
 import ToggleUser from "../api/ToggleUser";
 import { toast } from "sonner";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const normalizeUsers = (response: any) => {
   if (!response) return [];
@@ -131,12 +132,12 @@ export default function UsersPage() {
   };
 
   return (
-    <main className="bg-[#f5f5f5] min-h-screen pb-5 pt-20 px-6">
+    <main className="bg-background min-h-screen pb-5 pt-20 px-6">
       <div className="space-y-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-4xl font-semibold text-slate-800">Users</h1>
-            <p className="mt-2 text-sm text-slate-500">
+            <h1 className="text-4xl font-semibold text-foreground">Users</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
               Manage all users and view the latest account details.
             </p>
           </div>
@@ -154,72 +155,79 @@ export default function UsersPage() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-          <div className="border-b px-6 py-4 sm:px-8">
+        <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
+          <div className="border-b border-border px-6 py-4 sm:px-8">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
+                <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
                   Users
                 </p>
-                <p className="text-base text-slate-700">
+                <p className="text-base text-foreground">
                   Latest accounts from your organization
                 </p>
               </div>
-              <div className="text-sm text-slate-500">
-                {isLoading || isFetching
-                  ? "Loading users..."
-                  : isError
-                    ? "Unable to load users."
-                    : `${users.length} users shown`}
+              <div className="text-sm text-muted-foreground">
+                {isLoading || isFetching ? (
+                  <LoadingSpinner
+                    size={18}
+                    className="justify-start"
+                    label="Loading"
+                  />
+                ) : isError ? (
+                  "Unable to load users."
+                ) : (
+                  `${users.length} users shown`
+                )}
               </div>
             </div>
           </div>
 
           <Table>
             <TableHeader>
-              <TableRow className="bg-[#486F65]">
-                <TableHead className="text-white">
+              <TableRow className="bg-[#0a725c] ">
+                <TableHead className="text-primary-foreground">
                   <div className="flex items-center gap-2">
                     User Name
                     <ChevronsUpDown size={14} />
                   </div>
                 </TableHead>
-                <TableHead className="text-white">
+                <TableHead className="text-primary-foreground">
                   <div className="flex items-center gap-2">
                     Status
                     <ChevronsUpDown size={14} />
                   </div>
                 </TableHead>
-                <TableHead className="text-white">
+                <TableHead className="text-primary-foreground">
                   <div className="flex items-center gap-2">
                     Phone Number
                     <ChevronsUpDown size={14} />
                   </div>
                 </TableHead>
-                <TableHead className="text-white">
+                <TableHead className="text-primary-foreground">
                   <div className="flex items-center gap-2">
                     Email
                     <ChevronsUpDown size={14} />
                   </div>
                 </TableHead>
-                <TableHead className="text-white">
+                <TableHead className="text-primary-foreground">
                   <div className="flex items-center gap-2">
                     Date Created
                     <ChevronsUpDown size={14} />
                   </div>
                 </TableHead>
-                <TableHead className="w-14 text-white" />
+                <TableHead className="w-14 text-primary-foreground" />
               </TableRow>
             </TableHeader>
 
             <TableBody>
               {isLoading ? (
-                <TableRow className="bg-neutral-50">
-                  <TableCell
-                    colSpan={6}
-                    className="py-12 text-center text-slate-500"
-                  >
-                    Loading users...
+                <TableRow className="bg-card">
+                  <TableCell colSpan={6} className="py-12">
+                    <LoadingSpinner
+                      size={28}
+                      className="py-2"
+                      label="Loading users"
+                    />
                   </TableCell>
                 </TableRow>
               ) : isError ? (
@@ -248,9 +256,11 @@ export default function UsersPage() {
                   return (
                     <TableRow
                       key={user.id || user._id || `${index}`}
-                      className={index % 2 === 0 ? "bg-white" : "bg-slate-50"}
+                      className={index % 2 === 0 ? "bg-card" : "bg-muted/40"}
                     >
-                      <TableCell>{getUserName(user)}</TableCell>
+                      <TableCell className="text-foreground">
+                        {getUserName(user)}
+                      </TableCell>
                       <TableCell>
                         <span
                           className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold text-white ${
@@ -260,11 +270,13 @@ export default function UsersPage() {
                           {statusLabel}
                         </span>
                       </TableCell>
-                      <TableCell>{getPhoneNumber(user)}</TableCell>
-                      <TableCell className="max-w-55 truncate text-slate-600">
+                      <TableCell className="text-foreground">
+                        {getPhoneNumber(user)}
+                      </TableCell>
+                      <TableCell className="max-w-55 truncate text-muted-foreground">
                         {getEmail(user)}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-foreground">
                         {formatCreatedAt(user.creationDate)}
                       </TableCell>
                       <TableCell>

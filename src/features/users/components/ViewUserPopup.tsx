@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import viewUser from "../api/ViewUser";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 interface ViewUserPopupProps {
   userId: string | number | null;
@@ -51,20 +53,26 @@ function ViewUserPopup({ userId, open, onClose }: ViewUserPopupProps) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-      <div className="w-full max-w-2xl rounded-3xl bg-white shadow-2xl">
-        <div className="flex items-center justify-between border-b px-6 py-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 px-4 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: 18 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 12 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        className="w-full max-w-2xl overflow-hidden rounded-[30px] border border-border bg-card shadow-[0_30px_80px_rgba(15,23,42,0.35)] ring-1 ring-border/60"
+      >
+        <div className="flex items-center justify-between border-b border-border bg-[linear-gradient(135deg,rgba(49,89,81,0.12),transparent)] px-6 py-4">
           <div>
-            <h2 className="text-xl font-semibold text-slate-800">
+            <h2 className="text-xl font-semibold text-foreground">
               User Details
             </h2>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-muted-foreground">
               Detailed information about the selected user
             </p>
           </div>
           <button
             onClick={onClose}
-            className="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+            className="rounded-full p-2 text-muted-foreground transition hover:bg-muted hover:text-foreground"
             type="button"
           >
             <X size={18} />
@@ -73,8 +81,12 @@ function ViewUserPopup({ userId, open, onClose }: ViewUserPopupProps) {
 
         <div className="px-6 py-6">
           {loading ? (
-            <div className="py-10 text-center text-slate-500">
-              Loading user details...
+            <div className="py-10">
+              <LoadingSpinner
+                size={28}
+                className="py-4"
+                label="Loading user details"
+              />
             </div>
           ) : !user ? (
             <div className="py-10 text-center text-red-500">
@@ -82,16 +94,18 @@ function ViewUserPopup({ userId, open, onClose }: ViewUserPopupProps) {
             </div>
           ) : (
             <div className="space-y-6">
-              <div className="flex flex-col gap-5 rounded-2xl border border-slate-200 bg-slate-50 p-5 md:flex-row md:items-center md:justify-between">
+              <div className="flex flex-col gap-5 rounded-3xl border border-border bg-[linear-gradient(135deg,rgba(49,89,81,0.10),rgba(15,23,42,0.02))] p-5 md:flex-row md:items-center md:justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#486F65] text-xl font-semibold text-white">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-xl font-semibold text-primary">
                     {user.userName?.charAt(0)?.toUpperCase() || "U"}
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-slate-800">
+                    <h3 className="text-lg font-semibold text-foreground">
                       {user.userName}
                     </h3>
-                    <p className="text-sm text-slate-500">{user.email}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {user.email}
+                    </p>
                   </div>
                 </div>
                 <span
@@ -104,54 +118,58 @@ function ViewUserPopup({ userId, open, onClose }: ViewUserPopupProps) {
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
-                <div className="rounded-2xl border border-slate-200 p-4">
-                  <p className="text-sm font-medium text-slate-500">
+                <div className="rounded-2xl border border-border bg-background p-4">
+                  <p className="text-sm font-medium text-muted-foreground">
                     Phone Number
                   </p>
-                  <p className="mt-1 text-base text-slate-800">
+                  <p className="mt-1 text-base text-foreground">
                     {user.phoneNumber || "-"}
                   </p>
                 </div>
-                <div className="rounded-2xl border border-slate-200 p-4">
-                  <p className="text-sm font-medium text-slate-500">Country</p>
-                  <p className="mt-1 text-base text-slate-800">
+                <div className="rounded-2xl border border-border bg-background p-4">
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Country
+                  </p>
+                  <p className="mt-1 text-base text-foreground">
                     {user.country || "-"}
                   </p>
                 </div>
-                <div className="rounded-2xl border border-slate-200 p-4">
-                  <p className="text-sm font-medium text-slate-500">
+                <div className="rounded-2xl border border-border bg-background p-4">
+                  <p className="text-sm font-medium text-muted-foreground">
                     Role / Group
                   </p>
-                  <p className="mt-1 text-base text-slate-800">
+                  <p className="mt-1 text-base text-foreground">
                     {user.group?.name || "-"}
                   </p>
                 </div>
-                <div className="rounded-2xl border border-slate-200 p-4">
-                  <p className="text-sm font-medium text-slate-500">User ID</p>
-                  <p className="mt-1 text-base text-slate-800">{user.id}</p>
+                <div className="rounded-2xl border border-border bg-background p-4">
+                  <p className="text-sm font-medium text-muted-foreground">
+                    User ID
+                  </p>
+                  <p className="mt-1 text-base text-foreground">{user.id}</p>
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-slate-200 p-4">
-                <p className="text-sm font-medium text-slate-500">
+              <div className="rounded-2xl border border-border bg-background p-4">
+                <p className="text-sm font-medium text-muted-foreground">
                   Account Dates
                 </p>
                 <div className="mt-2 grid gap-2 md:grid-cols-2">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                       Created
                     </p>
-                    <p className="text-sm text-slate-700">
+                    <p className="text-sm text-foreground">
                       {user.creationDate
                         ? new Date(user.creationDate).toLocaleString()
                         : "-"}
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                       Last Modified
                     </p>
-                    <p className="text-sm text-slate-700">
+                    <p className="text-sm text-foreground">
                       {user.modificationDate
                         ? new Date(user.modificationDate).toLocaleString()
                         : "-"}
@@ -162,7 +180,7 @@ function ViewUserPopup({ userId, open, onClose }: ViewUserPopupProps) {
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

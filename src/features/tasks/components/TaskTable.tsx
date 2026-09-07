@@ -126,7 +126,7 @@ export default function TaskTable({
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-4xl font-medium text-neutral-700">Tasks</h1>
+        <h1 className="text-4xl font-medium ">Tasks</h1>
 
         <Button
           onClick={() => {
@@ -139,7 +139,7 @@ export default function TaskTable({
         </Button>
       </div>
 
-      <div className="rounded-xl border bg-white shadow-sm">
+      <div className="rounded-xl border border-border bg-card shadow-sm">
         <div className="p-4">
           <div className="relative max-w-xs">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -152,46 +152,52 @@ export default function TaskTable({
 
         <Table>
           <TableHeader>
-            <TableRow className="bg-[#486F65] hover:bg-[#486F65]">
-              <TableHead className="text-white">
+            <TableRow className="bg-[#0a725c]">
+              <TableHead className="text-primary-foreground">
                 <div className="flex items-center gap-2">
                   Title
                   <ChevronsUpDown size={14} />
                 </div>
               </TableHead>
-              <TableHead className="text-white">Description</TableHead>
-              <TableHead className="text-white">Status</TableHead>
-              <TableHead className="text-white">User</TableHead>
-              <TableHead className="text-white">Project</TableHead>
-              <TableHead className="text-white">Date Created</TableHead>
-              <TableHead className="w-14 text-white" />
+              <TableHead className="text-primary-foreground">
+                Description
+              </TableHead>
+              <TableHead className="text-primary-foreground">Status</TableHead>
+              <TableHead className="text-primary-foreground">User</TableHead>
+              <TableHead className="text-primary-foreground">Project</TableHead>
+              <TableHead className="text-primary-foreground">
+                Date Created
+              </TableHead>
+              <TableHead className="w-14 text-primary-foreground" />
             </TableRow>
           </TableHeader>
           <TableBody>
             {taskList.map((task: any, index: number) => (
               <TableRow
                 key={task.id}
-                className={index % 2 === 0 ? "bg-white" : "bg-neutral-50"}
+                className={index % 2 === 0 ? "bg-card" : "bg-muted/40"}
               >
-                <TableCell>{task.title}</TableCell>
+                <TableCell className="text-foreground">{task.title}</TableCell>
                 <TableCell className="max-w-65">
-                  <div className="text-sm text-slate-600">
+                  <div className="text-sm text-muted-foreground">
                     {task.description || "-"}
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                  <span className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground">
                     {/* {task.status?.replace("_", " ") || "-"} */}
                     {task.status}
                   </span>
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-foreground">
                   {task.employee?.userName || task.assigneeName || "-"}
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-foreground">
                   {task.project?.title || task.projectName || "-"}
                 </TableCell>
-                <TableCell>{formatDate(task.creationDate)}</TableCell>
+                <TableCell className="text-foreground">
+                  {formatDate(task.creationDate)}
+                </TableCell>
                 <TableCell>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -226,24 +232,24 @@ export default function TaskTable({
                         //   const confirmed = window.confirm(
                         //     "Are you sure you want to delete this task?",
                         //   );
-                            onClick={() => {
-                                                    Swal.fire({
-                                                      title: "Delete project?",
-                                                      text: "This action cannot be undone.",
-                                                      icon: "warning",
-                                                      showCancelButton: true,
-                                                      confirmButtonColor: "#d33",
-                                                      cancelButtonColor: "#3085d6",
-                                                      confirmButtonText: "Yes, delete it!",
-                                                      cancelButtonText: "Cancel",
-                                                    }).then((result) => {
-                                                      if (result.isConfirmed) {
-                                                        deleteMutation.mutate(String(task.id));
-                                                      } else {
-                                                        toast.info("Deletion canceled");
-                                                      }
-                                                    });
-                                                  }}
+                        onClick={() => {
+                          Swal.fire({
+                            title: "Delete project?",
+                            text: "This action cannot be undone.",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#d33",
+                            cancelButtonColor: "#3085d6",
+                            confirmButtonText: "Yes, delete it!",
+                            cancelButtonText: "Cancel",
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              deleteMutation.mutate(String(task.id));
+                            } else {
+                              toast.info("Deletion canceled");
+                            }
+                          });
+                        }}
                         //   if (confirmed) {
                         //     deleteMutation.mutate(String(task.id));
                         //   } else {
