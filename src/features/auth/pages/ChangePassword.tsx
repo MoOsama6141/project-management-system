@@ -37,16 +37,24 @@ const ChangePassword = () => {
       <div className="relative mx-auto mt-8 max-w-[668px] rounded-[25px] bg-[#315951E5]/90   py-10 px-15 backdrop-blur-md ">
         <p className="text-sm text-white/70">welcome to PMS</p>
 
-        <h2 className="mb-8 text-4xl font-bold text-orange-400">Change Password </h2>
+        <h2 className="mb-8 text-4xl font-bold text-orange-400">
+          Change Password{" "}
+        </h2>
 
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-1 mt-10">
-
-          <PasswordInput label="old Password" placeholder="Enter your old Password" />
-          <PasswordInput label="new Password" placeholder="Enter your new Password" />
-          <PasswordInput label="Confirm Password" placeholder="Enter your confirmation Password" />
+          <PasswordInput
+            label="old Password"
+            placeholder="Enter your old Password"
+          />
+          <PasswordInput
+            label="new Password"
+            placeholder="Enter your new Password"
+          />
+          <PasswordInput
+            label="Confirm Password"
+            placeholder="Enter your confirmation Password"
+          />
         </div>
-
-   
 
         {/* Button */}
         <div className="mt-12 flex justify-center">
@@ -65,22 +73,6 @@ type InputProps = {
   label: string;
   placeholder: string;
 };
-
-function Input({ label, placeholder }: InputProps) {
-  return (
-    <div>
-      <label className="mb-1 block text-xs font-medium text-orange-400">
-        {label}
-      </label>
-
-      <input
-        type="text"
-        placeholder={placeholder}
-        className="w-full border-b border-white/20 bg-transparent pb-2 text-white outline-none placeholder:text-white/60 focus:border-orange-400"
-      />
-    </div>
-  );
-}
 
 function PasswordInput({ label, placeholder }: InputProps) {
   const [isVisible, setIsVisible] = useState(false);
@@ -106,7 +98,11 @@ function PasswordInput({ label, placeholder }: InputProps) {
         className="absolute bottom-2 right-0 text-white/60 hover:text-white transition"
         onClick={toggleVisibility}
       >
-        {isVisible ? <EyeOff size={16} className="cursor-pointer" /> : <Eye size={16} className="cursor-pointer" />}
+        {isVisible ? (
+          <EyeOff size={16} className="cursor-pointer" />
+        ) : (
+          <Eye size={16} className="cursor-pointer" />
+        )}
       </button>
     </div>
   );

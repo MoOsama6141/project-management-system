@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
-import viewUser from "../api/ViewUser";
+import viewUser from "@/features/users/api/ViewUser";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 interface ViewUserPopupProps {

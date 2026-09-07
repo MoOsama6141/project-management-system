@@ -1,6 +1,4 @@
 import { motion } from "framer-motion";
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
 // import avatar from "@/assets/avatar.png"; // your avatar image
 
 const ForgetPassword = () => {
