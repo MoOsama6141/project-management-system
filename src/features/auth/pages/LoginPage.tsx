@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -37,19 +38,24 @@ const LoginPage = () => {
       const decoded = jwtDecode(data?.token) as TokenPayload;
       console.log(decoded, "decoded........");
 
+      const normalizedRole = decoded.userGroup?.toLowerCase() || "employee";
+
       window.localStorage.setItem("token", data?.token);
       window.localStorage.setItem("email", decoded?.userEmail);
-      localStorage.setItem("role", decoded.userGroup);
+      localStorage.setItem("role", normalizedRole);
 
       useAuthStore.setState({
         token: data?.token,
         email: decoded?.userEmail,
-        role: decoded.userGroup ? "manager" : "employee",
+        role: normalizedRole as "manager" | "employee" | "admin" | "user",
       });
       console.log(data, "data from login");
       toast.success(data?.message || "Login successful");
       window.localStorage.setItem("token", data?.token);
-      Navigate("/");
+      Navigate("/dashboard");
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || "Login failed");
     },
   });
 
@@ -60,30 +66,44 @@ const LoginPage = () => {
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#003D34]">
       {/* Left Image */}
-      <img
+      <motion.img
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 0.7, x: 0 }}
+        transition={{ duration: 0.6 }}
         src="/right.png"
         alt=""
-        className="absolute left-0 bottom-0 h-[70%] w-[450px]  object-cover opacity-70"
+        className="absolute left-0 bottom-0 h-[70%] w-112.5 object-cover opacity-70"
       />
 
       {/* Right Image */}
-      <img
+      <motion.img
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
         src="/left.png"
         alt=""
-        className="absolute right-0 top-0 h-full w-[420px] object-cover"
+        className="absolute right-0 top-0 h-full w-105 object-cover"
       />
       {/* Logo */}
-      <div className="pt-15 text-center">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="pt-15 text-center"
+      >
         <img
           src="/logo.png"
           alt="Logo"
-          className="mx-auto  rounded-full object-cover"
+          className="mx-auto rounded-full object-cover"
         />
-      </div>
+      </motion.div>
 
       {/* Form Card */}
-      <form
-        className="relative mx-auto mt-8 max-w-[668px] rounded-[25px] bg-[#315951E5]/90   pt-15 px-15 backdrop-blur-md h-[500px]"
+      <motion.form
+        initial={{ opacity: 0, y: 24, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className="relative mx-auto mt-8 max-w-167 rounded-[25px] bg-[#315951E5]/90 pt-15 px-15 backdrop-blur-md h-125"
         onSubmit={handleSubmit(onSubmit)}
       >
         <p className="text-sm text-white/70">welcome to PMS</p>
@@ -119,16 +139,20 @@ const LoginPage = () => {
 
         <div className="mt-4 flex justify-between text-sm text-white/70">
           <a href="/register">register now ?</a>
-          <a href="">forget password ? </a>
+          {/* <a href="/forget-password">forget password ? </a> */}
         </div>
 
         {/* Button */}
         <div className="mt-12 flex justify-center">
-          <button className="w-[80%] cursor-pointer rounded-full bg-orange-500 py-3 font-semibold text-white transition hover:bg-orange-600">
+          <motion.button
+            whileHover={{ scale: 1.03, y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-[80%] cursor-pointer rounded-full bg-orange-500 py-3 font-semibold text-white transition hover:bg-orange-600"
+          >
             {isPending ? "Logging in..." : "Login"}
-          </button>
+          </motion.button>
         </div>
-      </form>
+      </motion.form>
     </div>
   );
 };

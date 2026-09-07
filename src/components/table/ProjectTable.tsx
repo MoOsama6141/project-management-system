@@ -30,6 +30,8 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
@@ -37,7 +39,8 @@ import DeleteProject from "@/features/projects/api/DeleteProject";
 import updateProject from "@/features/projects/api/UpdateProject";
 import ProjectModal from "@/features/projects/components/ProjectModal";
 
-export default function ProjectTable({ data: projects }: any) {
+export default function ProjectTable({ data: projects, ismanager }: any) {
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"create" | "edit" | "view">(
     "create",
@@ -96,20 +99,37 @@ export default function ProjectTable({ data: projects }: any) {
       {/* Header */}
 
       <div className="flex items-center justify-between">
-        <h1 className="text-4xl font-medium text-neutral-700">Projects</h1>
+        <h1 className="text-4xl font-medium" style={{ color: "var(--text)" }}>
+          Projects
+        </h1>
 
-        <a
-          href="/projects/add-project"
-          className="rounded-full bg-[#F5A623] hover:bg-[#e79b1e]"
-        >
-          <Plus className="h-4 w-4" />
-          Add New Project
-        </a>
+        {ismanager && (
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.03, y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => navigate("/projects/add-project")}
+            className="flex h-10 w-45 items-center justify-center gap-2 rounded-full px-4 py-2 transition-colors duration-300"
+            style={{
+              background: "var(--accent-orange)",
+              color: "var(--surface)",
+            }}
+          >
+            <Plus className="h-4 w-4" />
+            Add New Project
+          </motion.button>
+        )}
       </div>
 
       {/* Table Card */}
 
-      <div className="rounded-xl border bg-white shadow-sm">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className="rounded-xl border shadow-sm"
+        style={{ background: "var(--surface)", color: "var(--text)" }}
+      >
         {/* Search */}
 
         <div className="p-4">
@@ -127,36 +147,36 @@ export default function ProjectTable({ data: projects }: any) {
 
         <Table>
           <TableHeader>
-            <TableRow className="bg-[#486F65] hover:bg-[#486F65]">
-              <TableHead className="text-white">
+            <TableRow className="bg-[#0a725c] ">
+              <TableHead style={{ color: "var(--surface)" }}>
                 <div className="flex items-center gap-2">
                   Title
                   <ChevronsUpDown size={14} />
                 </div>
               </TableHead>
 
-              <TableHead className="text-white">
+              <TableHead style={{ color: "var(--surface)" }}>
                 <div className="flex items-center gap-2  ">
                   Description
                   <ChevronsUpDown size={14} />
                 </div>
               </TableHead>
 
-              <TableHead className="text-white">
+              <TableHead style={{ color: "var(--surface)" }}>
                 <div className="flex items-center gap-2">
                   Manager
                   <ChevronsUpDown size={14} />
                 </div>
               </TableHead>
 
-              <TableHead className="text-white">
+              <TableHead style={{ color: "var(--surface)" }}>
                 <div className="flex items-center gap-2">
                   Date Created
                   <ChevronsUpDown size={14} />
                 </div>
               </TableHead>
 
-              <TableHead className="w-14 text-white" />
+              <TableHead className="w-14" style={{ color: "var(--surface)" }} />
             </TableRow>
           </TableHeader>
 
@@ -164,18 +184,21 @@ export default function ProjectTable({ data: projects }: any) {
             {projectList.map((project: any, index: number) => (
               <TableRow
                 key={project.id}
-                className={index % 2 === 0 ? "bg-white" : "bg-neutral-50"}
+                style={{
+                  background:
+                    index % 2 === 0 ? "transparent" : "rgba(0,0,0,0.03)",
+                }}
               >
                 <TableCell>{project.title}</TableCell>
 
                 <TableCell className="max-w-60">
-                  <div className="text-sm text-slate-600 truncate">
+                  <div className="text-sm text-muted-foreground truncate">
                     {project.description || "-"}
                   </div>
                 </TableCell>
 
                 <TableCell>
-                  <div className="text-sm text-slate-700">
+                  <div className="text-sm text-muted-foreground">
                     {project.manager?.userName || "-"}
                   </div>
                 </TableCell>
@@ -268,7 +291,7 @@ export default function ProjectTable({ data: projects }: any) {
             </Button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       <ProjectModal
         open={modalOpen}

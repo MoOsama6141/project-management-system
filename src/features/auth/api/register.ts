@@ -3,7 +3,7 @@ import axios from "axios";
 const registerData = async (data: any) => {
   try {
     const response = await axios.post(
-      "https://upskilling-egypt.com:3003/api/v1/Users/Create",
+      "https://upskilling-egypt.com:3003/api/v1/Users/Register",
       {
         userName: data.userName,
         email: data.email,

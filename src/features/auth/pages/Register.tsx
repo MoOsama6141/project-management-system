@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -61,30 +62,46 @@ const RegisterPage = () => {
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#003D34]">
       {/* Left Image */}
-      <img
+      <motion.img
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 0.7, x: 0 }}
+        transition={{ duration: 0.6 }}
         src="/right.png"
         alt=""
-        className="absolute left-0 bottom-0 h-[70%] w-[450px]  object-cover opacity-70"
+        className="absolute left-0 bottom-0 h-[70%] w-112.5 object-cover opacity-70"
       />
 
       {/* Right Image */}
-      <img
+      <motion.img
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
         src="/left.png"
         alt=""
-        className="absolute right-0 top-0 h-full w-[420px] object-cover"
+        className="absolute right-0 top-0 h-full w-105 object-cover"
       />
 
       {/* Logo */}
-      <div className="pt-15 text-center">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="pt-15 text-center"
+      >
         <img
           src="/logo.png"
           alt="Logo"
-          className="mx-auto  rounded-full object-cover"
+          className="mx-auto rounded-full object-cover"
         />
-      </div>
+      </motion.div>
 
       {/* Form Card */}
-      <div className="relative mx-auto mt-8 max-w-[1200px] rounded-[25px] bg-[#26465A]/90 py-6 px-12 backdrop-blur-md">
+      <motion.div
+        initial={{ opacity: 0, y: 26, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className="relative mx-auto mt-8 max-w-300 rounded-[25px] bg-[#26465A]/90 py-6 px-12 backdrop-blur-md"
+      >
         <p className="text-sm text-white/70">welcome to PMS</p>
 
         <h2 className="mb-8 text-4xl font-bold text-orange-400">
@@ -191,16 +208,18 @@ const RegisterPage = () => {
 
           {/* Button */}
           <div className="mt-12 flex justify-center md:col-span-2">
-            <button
+            <motion.button
               type="submit"
+              whileHover={{ scale: 1.03, y: -1 }}
+              whileTap={{ scale: 0.98 }}
               disabled={isPending}
-              className="w-[300px] cursor-pointer rounded-full bg-orange-500 py-3 font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-75 cursor-pointer rounded-full bg-orange-500 py-3 font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isPending ? "Registering..." : "Register"}
-            </button>
+            </motion.button>
           </div>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };
