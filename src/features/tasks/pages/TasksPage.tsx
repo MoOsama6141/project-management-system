@@ -132,7 +132,7 @@ const TasksPage = () => {
     isError: isProjectTasksError,
   } = useQuery({
     queryKey: ["project-tasks", selectedProjectId],
-    queryFn: () => getProjectTasks(selectedProjectId),
+    queryFn: () => getProjectTasks(),
     enabled: isUserRole && Boolean(selectedProjectId),
   });
 
@@ -245,7 +245,7 @@ const TasksPage = () => {
           </div>
         ) : (
           <>
-            <div className="mb-6 flex flex-wrap gap-3">
+            {/* <div className="mb-6 flex flex-wrap gap-3">
               {userProjects.map((project: any, index: number) => (
                 <motion.button
                   key={project.id}
@@ -263,7 +263,7 @@ const TasksPage = () => {
                   {project.name || project.title}
                 </motion.button>
               ))}
-            </div>
+            </div> */}
 
             {isProjectTasksPending ? (
               <div className="mt-6 flex min-h-55 items-center justify-center">
