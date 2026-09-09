@@ -53,7 +53,7 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="space-y-6 bg-background px-6 pb-5 pt-20">
+    <div className="space-y-6 bg-background px-2 md:px-6 pb-5 pt-20">
       <motion.section
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
@@ -71,7 +71,7 @@ const HomePage = () => {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl font-light text-white"
+            className="text-4xl lg:text-5xl font-light text-white"
           >
             Welcome
             <span className="ml-2 font-medium text-amber-400">
@@ -83,7 +83,7 @@ const HomePage = () => {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-5 text-2xl font-light text-white/95"
+            className="mt-5 text-[25px] md:text-2xl font-light text-white/95"
           >
             You can add project and assign tasks to your team
           </motion.p>
@@ -103,7 +103,7 @@ const HomePage = () => {
             Lorem ipsum dolor sit amet, consectetur
           </p>
 
-          <div className="mt-6 grid grid-cols-3 gap-4">
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {cards.map((card, index) => (
               <motion.div
                 key={card.title}

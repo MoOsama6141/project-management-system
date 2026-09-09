@@ -1,9 +1,10 @@
 import axios from "axios";
+import { API_V1 } from "@/config/api";
 
 const registerData = async (data: any) => {
   try {
     const response = await axios.post(
-      "https://upskilling-egypt.com:3003/api/v1/Users/Register",
+      `${API_V1}/Users/Register`,
       {
         userName: data.userName,
         email: data.email,
@@ -30,4 +31,3 @@ const registerData = async (data: any) => {
 };
 
 export default registerData;
-

@@ -12,6 +12,7 @@ import getEmployeeProjectes from "@/features/projects/api/GetEmployeeProjects";
 import getProjectTasks from "@/features/tasks/api/GetProjectTasks";
 import updateTask from "@/features/tasks/api/UpdateTask";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import ErrorState from "@/components/shared/ErrorState";
 
 const boardColumns = [
   {
@@ -238,7 +239,10 @@ const TasksPage = () => {
             <LoadingSpinner size={30} label="Loading project tasks" />
           </div>
         ) : isUserProjectsError ? (
-          <div className="mt-6 text-red-500">Failed to load your projects.</div>
+          <ErrorState
+            className="mt-6"
+            title="Your projects could not be loaded"
+          />
         ) : userProjects.length === 0 ? (
           <div className="mt-6 rounded-2xl border border-dashed border-border bg-card p-6 text-center text-muted-foreground">
             No projects assigned yet.
@@ -270,9 +274,10 @@ const TasksPage = () => {
                 <LoadingSpinner size={30} label="Loading tasks" />
               </div>
             ) : isProjectTasksError ? (
-              <div className="mt-6 text-red-500">
-                Failed to load task board.
-              </div>
+              <ErrorState
+                className="mt-6"
+                title="Task board could not be loaded"
+              />
             ) : (
               <div className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-3">
                 {boardColumns.map((column, columnIndex) => {

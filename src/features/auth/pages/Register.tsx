@@ -60,7 +60,7 @@ const RegisterPage = () => {
     mutate(data);
   };
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#003D34]">
+    <div className="relative min-h-screen overflow-hidden bg-[#003D34] max-md:px-3">
       {/* Left Image */}
       <motion.img
         initial={{ opacity: 0, x: -30 }}
@@ -78,7 +78,7 @@ const RegisterPage = () => {
         transition={{ duration: 0.6 }}
         src="/left.png"
         alt=""
-        className="absolute right-0 top-0 h-full w-105 object-cover"
+        className="absolute right-0 top-0 h-full w-105 object-cover max-lg:hidden"
       />
 
       {/* Logo */}

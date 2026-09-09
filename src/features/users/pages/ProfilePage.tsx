@@ -12,6 +12,7 @@ import {
 
 import getCurrentUser from "@/features/users/api/CurrentUser";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import ErrorState from "@/components/shared/ErrorState";
 
 const ProfilePage = () => {
   const { data, isPending, isError } = useQuery({
@@ -36,9 +37,7 @@ const ProfilePage = () => {
   if (isError) {
     return (
       <main className="min-h-screen px-6 py-20">
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-red-600">
-          Failed to load profile information.
-        </div>
+        <ErrorState title="Profile could not be loaded" />
       </main>
     );
   }

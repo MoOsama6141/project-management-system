@@ -38,8 +38,13 @@ import { toast } from "sonner";
 import DeleteProject from "@/features/projects/api/DeleteProject";
 import updateProject from "@/features/projects/api/UpdateProject";
 import ProjectModal from "@/features/projects/components/ProjectModal";
+import ErrorState from "@/components/shared/ErrorState";
 
-export default function ProjectTable({ data: projects, ismanager }: any) {
+export default function ProjectTable({
+  data: projects,
+  isError,
+  ismanager,
+}: any) {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"create" | "edit" | "view">(
@@ -81,6 +86,17 @@ export default function ProjectTable({ data: projects, ismanager }: any) {
       toast.error("Failed to update project");
     },
   });
+
+  if (isError) {
+    return (
+      <div className="space-y-5">
+        <h1 className="text-4xl font-medium" style={{ color: "var(--text)" }}>
+          Projects
+        </h1>
+        <ErrorState title="Projects could not be loaded" />
+      </div>
+    );
+  }
 
   const formatDate = (value?: string) => {
     if (!value) return "-";
@@ -270,7 +286,7 @@ export default function ProjectTable({ data: projects, ismanager }: any) {
 
         {/* Footer */}
 
-        <div className="flex items-center justify-end gap-8 border-t p-4 text-sm text-muted-foreground">
+        <div className="grid grid-cols-2 gap-3 border-t p-3 text-sm text-muted-foreground sm:flex sm:items-center sm:justify-end sm:gap-8 sm:p-4">
           <div>
             Showing <strong>{projectList.length}</strong>
           </div>
@@ -281,7 +297,7 @@ export default function ProjectTable({ data: projects, ismanager }: any) {
             Page {pageNumber} of {totalPages}
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex justify-end gap-2">
             <Button size="icon" variant="ghost">
               <ChevronLeft size={16} />
             </Button>

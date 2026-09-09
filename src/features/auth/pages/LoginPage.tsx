@@ -64,7 +64,7 @@ const LoginPage = () => {
     console.log(data, "data from login");
   };
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#003D34]">
+    <div className="relative min-h-screen overflow-hidden bg-[#003D34] max-md:px-3">
       {/* Left Image */}
       <motion.img
         initial={{ opacity: 0, x: -30 }}
@@ -82,14 +82,14 @@ const LoginPage = () => {
         transition={{ duration: 0.6 }}
         src="/left.png"
         alt=""
-        className="absolute right-0 top-0 h-full w-105 object-cover"
+        className= " max-lg:hidden absolute right-0 top-0 h-full w-105 object-cover"
       />
       {/* Logo */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="pt-15 text-center"
+        className="pt-15 text-center "
       >
         <img
           src="/logo.png"
@@ -103,7 +103,7 @@ const LoginPage = () => {
         initial={{ opacity: 0, y: 24, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.45, ease: "easeOut" }}
-        className="relative mx-auto mt-8 max-w-167 rounded-[25px] bg-[#315951E5]/90 pt-15 px-15 backdrop-blur-md h-125"
+        className="relative mx-auto mt-8 max-w-167 rounded-[25px] bg-[#315951E5]/90 pt-15 px-10 md:px-15 backdrop-blur-md h-125"
         onSubmit={handleSubmit(onSubmit)}
       >
         <p className="text-sm text-white/70">welcome to PMS</p>

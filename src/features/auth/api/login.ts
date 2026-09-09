@@ -1,9 +1,10 @@
 import axios from "axios";
+import { API_V1 } from "@/config/api";
 
 const loginFn = async (data: any) => {
   try {
     const response = await axios.post(
-      "https://upskilling-egypt.com:3003/api/v1/Users/Login",
+      `${API_V1}/Users/Login`,
       {
         email: data.email,
         password: data.password,
