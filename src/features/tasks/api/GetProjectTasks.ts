@@ -1,8 +1,9 @@
 import axios from "axios";
+import { API_V1 } from "@/config/api";
 
 const getProjectTasks = async () => {
   const token = localStorage.getItem("token");
-  const url =  "https://upskilling-egypt.com:3003/api/v1/Task";
+  const url = `${API_V1}/Task`;
 
   try {
     const response = await axios.get(url, {

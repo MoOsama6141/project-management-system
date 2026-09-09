@@ -1,17 +1,15 @@
 import axios from "axios";
+import { API_V1 } from "@/config/api";
 
 const getCurrentUser = async () => {
   const token = localStorage.getItem("token");
 
   try {
-    const response = await axios.get(
-      "https://upskilling-egypt.com:3003/api/v1/Users/currentUser",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    const response = await axios.get(`${API_V1}/Users/currentUser`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-    );
+    });
 
     return response.data;
   } catch (error: any) {

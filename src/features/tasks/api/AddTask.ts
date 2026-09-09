@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_V1 } from "@/config/api";
 
 const addTask = async (payload: {
   title: string;
@@ -11,7 +12,7 @@ const addTask = async (payload: {
 
   try {
     const response = await axios.post(
-      "https://upskilling-egypt.com:3003/api/v1/Task",
+      `${API_V1}/Task`,
       {
         ...payload,
         employeeId: payload.employeeId,

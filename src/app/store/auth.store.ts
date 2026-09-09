@@ -12,7 +12,9 @@ interface AuthStore {
 export const useAuthStore = create<AuthStore>((set) => ({
   token: null,
   email: null,
-  role: "employee",
+  role:
+    (localStorage.getItem("role")?.trim().toLowerCase() as AuthStore["role"]) ||
+    "employee",
   setToken: (token) => set({ token }),
   setEmail: (email) => set({ email }),
   setRole: (role) => set({ role }),

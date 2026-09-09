@@ -30,6 +30,7 @@ import ViewUserPopup from "../components/ViewUserPopup";
 import ToggleUser from "../api/ToggleUser";
 import { toast } from "sonner";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import ErrorState from "@/components/shared/ErrorState";
 
 const normalizeUsers = (response: any) => {
   if (!response) return [];
@@ -232,11 +233,8 @@ export default function UsersPage() {
                 </TableRow>
               ) : isError ? (
                 <TableRow className="bg-neutral-50">
-                  <TableCell
-                    colSpan={6}
-                    className="py-12 text-center text-red-500"
-                  >
-                    Failed to load users.
+                  <TableCell colSpan={6} className="p-4">
+                    <ErrorState title="Users could not be loaded" />
                   </TableCell>
                 </TableRow>
               ) : users.length === 0 ? (

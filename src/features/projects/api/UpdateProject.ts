@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_V1 } from "@/config/api";
 
 const updateProject = async (
   projectId: string,
@@ -7,7 +8,7 @@ const updateProject = async (
   const token = window.localStorage.getItem("token");
   try {
     const response = await axios.put(
-      `https://upskilling-egypt.com:3003/api/v1/project/${projectId}`,
+      `${API_V1}/project/${projectId}`,
       payload,
       {
         headers: {

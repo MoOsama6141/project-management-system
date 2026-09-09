@@ -268,7 +268,7 @@ export default function TaskTable({
           </TableBody>
         </Table>
 
-        <div className="flex items-center justify-end gap-8 border-t p-4 text-sm text-muted-foreground">
+        <div className="grid grid-cols-2 gap-3 border-t p-3 text-sm text-muted-foreground sm:flex sm:items-center sm:justify-end sm:gap-8 sm:p-4">
           <div>
             Showing <strong>{taskList.length}</strong>
           </div>
@@ -276,7 +276,7 @@ export default function TaskTable({
           <div>
             Page {pageNumber} of {totalPages}
           </div>
-          <div className="flex gap-2">
+          <div className="flex justify-end gap-2">
             <Button size="icon" variant="ghost">
               <ChevronLeft size={16} />
             </Button>

@@ -6,6 +6,7 @@ import verifyFn from "../api/Verify";
 import { toast } from "sonner";
 import verifySchema from "../schemas/verify";
 import { useNavigate } from "react-router";
+import ErrorState from "@/components/shared/ErrorState";
 // import avatar from "@/assets/avatar.png"; // your avatar image
 type Inputs = {
   email: string;
@@ -20,7 +21,7 @@ const VerifyAccount = () => {
     resolver: zodResolver(verifySchema),
   });
   const Navigate = useNavigate();
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isError } = useMutation({
     mutationFn: verifyFn,
     onSuccess: (data) => {
       console.log(data, "data from login");
@@ -35,7 +36,7 @@ const VerifyAccount = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#003D34]">
+    <div className="relative min-h-screen overflow-hidden bg-[#003D34] max-md:px-3">
       {/* Left Image */}
       <motion.img
         initial={{ opacity: 0, x: -30 }}
@@ -53,7 +54,7 @@ const VerifyAccount = () => {
         transition={{ duration: 0.6 }}
         src="/left.png"
         alt=""
-        className="absolute right-0 top-0 h-full w-105 object-cover"
+        className="absolute right-0 top-0 h-full w-105 object-cover max-lg:hidden"
       />
 
       {/* Logo */}
@@ -81,6 +82,14 @@ const VerifyAccount = () => {
         <p className="text-sm text-white/70">welcome to PMS</p>
 
         <h2 className="mb-8 text-4xl font-bold text-orange-400">Verify </h2>
+
+        {isError && (
+          <ErrorState
+            className="mb-6 px-4 py-5"
+            title="Verification failed"
+            message="We could not verify your account. Reload the page and try again."
+          />
+        )}
 
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-1 mt-10">
           <div>

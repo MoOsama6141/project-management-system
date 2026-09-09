@@ -1,4 +1,5 @@
 import { ChevronDown, LayoutDashboard, LogOut, UserCircle } from "lucide-react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
@@ -16,7 +17,7 @@ import getCurrentUser from "@/features/users/api/CurrentUser";
 
 const ProfileDropdown = () => {
   const navigate = useNavigate();
-  const role = useAuthStore((state) => state.role) ?? "employee";
+  const setRole = useAuthStore((state) => state.setRole);
   const { data: currentUser } = useQuery({
     queryKey: ["current-user"],
     queryFn: () => getCurrentUser(),
@@ -26,7 +27,18 @@ const ProfileDropdown = () => {
     currentUser?.fullName ??
     currentUser?.name ??
     "User";
-  const initials = displayName.charAt(0).toUpperCase();
+  const role = currentUser?.group?.name ?? "employee";
+  const normalizedRole = role.trim().toLowerCase() as
+    | "manager"
+    | "employee"
+    | "admin"
+    | "user";
+
+  useEffect(() => {
+    setRole(normalizedRole);
+    window.localStorage.setItem("role", normalizedRole);
+  }, [normalizedRole, setRole]);
+
 
   const handleLogout = () => {
     useAuthStore.getState().setToken(null);
@@ -43,10 +55,11 @@ const ProfileDropdown = () => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="flex items-center gap-2 rounded-full  px-1 py-1.5 text-foreground  transition-colors hover:bg-muted"
+          className="flex items-center gap-2 rounded-full  px-1 py-2 text-foreground  transition-colors hover:bg-muted"
         >
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-            {initials}
+            {/* {initials} */}
+            <img src="/avatar.png" alt="avatar" />
           </div>
 
           <div className="hidden text-left sm:block">

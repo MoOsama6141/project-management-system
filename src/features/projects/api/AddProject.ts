@@ -1,20 +1,18 @@
 import axios from "axios";
+import { API_V1 } from "@/config/api";
 
-const updateProject = async (
-  payload: { title?: string; description?: string },
-) => {
+const updateProject = async (payload: {
+  title?: string;
+  description?: string;
+}) => {
   const token = window.localStorage.getItem("token");
   try {
-    const response = await axios.post(
-      `https://upskilling-egypt.com:3003/api/v1/project/`,
-      payload,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+    const response = await axios.post(`${API_V1}/project/`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-    );
+    });
     return response.data;
   } catch (error: any) {
     if (error.response) {

@@ -20,7 +20,7 @@ const DashboardLayout = () => {
           initial={{ x: -30, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.45, delay: 0.1, ease: "easeOut" }}
-          className="fixed left-0 top-16 h-screen w-40 bg-[#0E382F] text-white shadow-lg"
+          className="fixed left-0 top-16 h-screen w-16 bg-[#0E382F] text-white shadow-lg md:w-40"
         >
           <Sidbar />
         </motion.aside>
@@ -29,7 +29,7 @@ const DashboardLayout = () => {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.12, ease: "easeOut" }}
-          className="ms-40 flex-1 py-0"
+          className="ms-16 min-w-0 flex-1 py-0 md:ms-40"
         >
           <Outlet />
         </motion.main>
