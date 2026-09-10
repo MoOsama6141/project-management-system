@@ -100,7 +100,7 @@ const HomePage = () => {
           <h3 className="text-[30px] font-semibold text-foreground">Tasks</h3>
 
           <p className="mt-2 text-base text-muted-foreground">
-            Lorem ipsum dolor sit amet, consectetur
+            Track your current workload and team progress in real time
           </p>
 
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
