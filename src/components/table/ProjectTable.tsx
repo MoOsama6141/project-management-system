@@ -241,41 +241,45 @@ export default function ProjectTable({
                         View
                       </DropdownMenuItem>
 
-                      <DropdownMenuItem
-                        onClick={() => {
-                          setSelectedProject(project);
-                          setModalMode("edit");
-                          setModalOpen(true);
-                        }}
-                      >
-                        <Pencil className="mr-2 h-4 w-4" />
-                        Edit
-                      </DropdownMenuItem>
+                      {ismanager && (
+                        <>
+                          <DropdownMenuItem
+                            onClick={() => {
+                              setSelectedProject(project);
+                              setModalMode("edit");
+                              setModalOpen(true);
+                            }}
+                          >
+                            <Pencil className="mr-2 h-4 w-4" />
+                            Edit
+                          </DropdownMenuItem>
 
-                      <DropdownMenuItem
-                        className="text-red-500"
-                        onClick={() => {
-                          Swal.fire({
-                            title: "Delete project?",
-                            text: "This action cannot be undone.",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#d33",
-                            cancelButtonColor: "#3085d6",
-                            confirmButtonText: "Yes, delete it!",
-                            cancelButtonText: "Cancel",
-                          }).then((result) => {
-                            if (result.isConfirmed) {
-                              deleteMutation.mutate(String(project.id));
-                            } else {
-                              toast.info("Deletion canceled");
-                            }
-                          });
-                        }}
-                      >
-                        <Trash2 className="mr-2 h-4 w-4" />
-                        Delete
-                      </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="text-red-500"
+                            onClick={() => {
+                              Swal.fire({
+                                title: "Delete project?",
+                                text: "This action cannot be undone.",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#d33",
+                                cancelButtonColor: "#3085d6",
+                                confirmButtonText: "Yes, delete it!",
+                                cancelButtonText: "Cancel",
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  deleteMutation.mutate(String(project.id));
+                                } else {
+                                  toast.info("Deletion canceled");
+                                }
+                              });
+                            }}
+                          >
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete
+                          </DropdownMenuItem>
+                        </>
+                      )}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

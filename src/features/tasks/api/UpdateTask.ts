@@ -15,7 +15,7 @@ const updateTask = async (
 
   try {
     const response = await axios.put(
-      `${API_V1}/Task/${taskId}/change-status`,
+      `${API_V1}/Task/${taskId}`,
       {
         ...payload,
         employeeId: payload.employeeId,
