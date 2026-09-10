@@ -7,7 +7,7 @@ const updateTask = async (
     title: string;
     description: string;
     employeeId: string;
-    id: string;
+    projectId: string;
     status: string;
   },
 ) => {
