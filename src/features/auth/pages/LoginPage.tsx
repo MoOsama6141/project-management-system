@@ -72,7 +72,7 @@ const LoginPage = () => {
         transition={{ duration: 0.6 }}
         src="/right.png"
         alt=""
-        className="absolute left-0 bottom-0 h-[70%] w-112.5 object-cover opacity-70"
+        className="absolute left-0 bottom-0 h-[30%] md:h-[70%] w-112.5 object-cover opacity-70"
       />
 
       {/* Right Image */}
@@ -89,7 +89,7 @@ const LoginPage = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="pt-15 text-center "
+        className="pt-10 md:pt-15 text-center "
       >
         <img
           src="/logo.png"
